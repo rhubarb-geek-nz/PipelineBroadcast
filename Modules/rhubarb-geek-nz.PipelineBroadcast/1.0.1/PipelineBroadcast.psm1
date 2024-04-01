@@ -6,16 +6,23 @@ function Invoke-PipelineBroadcast
     [CmdletBinding()]
 	param(
 		[Parameter(Mandatory)][ScriptBlock[]]$ScriptBlock,
-		[Parameter(Mandatory)][Object[]]$ArgumentList,
+		[Parameter(Mandatory=$False)][Object[][]]$ArgumentList=$null,
 		[Parameter(Mandatory,ValueFromPipeline)][Object]$InputObject
 	)
 	Begin {
 		$i = $ScriptBlock.Count
-		$pipes = New-Object Object[] $i
+		$pipes = New-Object System.Management.Automation.SteppablePipeline[] $i
 		$internal = [System.Management.Automation.CommandOrigin]::Internal
 		while ($i--)
 		{
-			$pipes[$i] = $ScriptBlock[$i].GetSteppablePipeline($internal,$ArgumentList[$i])
+			if ($ArgumentList)
+			{
+				$pipes[$i] = $ScriptBlock[$i].GetSteppablePipeline($internal,$ArgumentList[$i])
+			}
+			else
+			{
+				$pipes[$i] = $ScriptBlock[$i].GetSteppablePipeline($internal)
+			}
 		}
 		foreach ($pipe in $pipes)
 		{

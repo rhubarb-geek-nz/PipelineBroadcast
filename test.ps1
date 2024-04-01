@@ -14,10 +14,11 @@ $logRules = (
 	( 'information.log', { $_ -is [System.Management.Automation.InformationRecord] } ),
 	( 'warning.log', { $_ -is [System.Management.Automation.WarningRecord] } ),
 	( 'debug.log', { $_ -is [System.Management.Automation.DebugRecord] } ),
+	( 'error.log', { $_ -is [System.Management.Automation.ErrorRecord] } ),
 	( 'verbose.log', { $_ -is [System.Management.Automation.VerboseRecord] } )
 )
 
-Invoke-Command -ScriptBlock {
+& {
 	$VerbosePreference = 'Continue'
 	$DebugPreference = 'Continue'
 	Write-Output 'write to the output'
@@ -26,7 +27,7 @@ Invoke-Command -ScriptBlock {
 	Write-Debug 'write debug'
 	Write-Verbose 'write verbose information to the pipeline with a unique record type in order to identify it and filter'
 	Write-Warning 'this is your final warning'
-} *>&1 2>error.log | Invoke-PipelineBroadcast -ScriptBlock ((,{
+} *>&1 | Invoke-PipelineBroadcast -ScriptBlock ((,{
 	param([string]$file,[ScriptBlock]$rule)
 	Where-Object -FilterScript $rule > $file
 })*$logRules.Count) -ArgumentList $logRules

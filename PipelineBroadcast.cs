@@ -61,7 +61,10 @@ namespace RhubarbGeekNz.PipelineBroadcast
             {
                 foreach (var pipe in pipes)
                 {
-                    pipe.Dispose();
+                    if (pipe != null)
+                    {
+                        pipe.Dispose();
+                    }
                 }
             }
         }

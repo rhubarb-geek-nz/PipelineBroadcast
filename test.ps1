@@ -10,7 +10,6 @@ trap
 Remove-Item *.log -Force
 
 $logRules = (
-	( 'all.log', { $True } ),
 	( 'information.log', { $_ -is [System.Management.Automation.InformationRecord] } ),
 	( 'warning.log', { $_ -is [System.Management.Automation.WarningRecord] } ),
 	( 'debug.log', { $_ -is [System.Management.Automation.DebugRecord] } ),
@@ -30,4 +29,4 @@ $logRules = (
 } *>&1 | Invoke-PipelineBroadcast -ScriptBlock ((,{
 	param([string]$file,[ScriptBlock]$rule)
 	Where-Object -FilterScript $rule > $file
-})*$logRules.Count) -ArgumentList $logRules
+})*$logRules.Count) -ArgumentList $logRules -PassThru > 'all.log'

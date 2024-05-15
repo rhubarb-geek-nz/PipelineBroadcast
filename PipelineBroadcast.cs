@@ -15,8 +15,22 @@ namespace RhubarbGeekNz.PipelineBroadcast
         public Object[][] ArgumentList;
         [Parameter(Mandatory = true, ValueFromPipeline = true)]
         public Object InputObject;
+        [Parameter(Mandatory = false)]
+        public SwitchParameter PassThru
+        {
+            get
+            {
+                return passThru;
+            }
+
+            set
+            {
+                passThru = value;
+            }
+        }
 
         private SteppablePipeline[] pipes;
+        private bool passThru;
 
         protected override void BeginProcessing()
         {
@@ -41,6 +55,11 @@ namespace RhubarbGeekNz.PipelineBroadcast
 
         protected override void ProcessRecord()
         {
+            if (passThru)
+            {
+                WriteObject(InputObject);
+            }
+
             foreach (var pipe in pipes)
             {
                 pipe.Process(InputObject);

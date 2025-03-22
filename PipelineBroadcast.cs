@@ -1,4 +1,4 @@
-// Copyright (c) 2024 Roger Brown.
+// Copyright (c) 2025 Roger Brown.
 // Licensed under the MIT License.
 
 using System;
@@ -62,7 +62,10 @@ namespace RhubarbGeekNz.PipelineBroadcast
 
             foreach (var pipe in pipes)
             {
-                pipe.Process(InputObject);
+                foreach (var result in pipe.Process(InputObject))
+                {
+                    WriteObject(result);
+                }
             }
         }
 

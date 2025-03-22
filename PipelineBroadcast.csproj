@@ -3,8 +3,8 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>RhubarbGeekNz.PipelineBroadcast</AssemblyName>
-    <Copyright>Copyright © 2024 Roger Brown</Copyright>
-    <Version>1.1.2</Version>
+    <Copyright>Copyright © 2025 Roger Brown</Copyright>
+    <Version>1.1.3</Version>
     <AssemblyTitle>PowerShell PipelineBroadcast Cmdlet</AssemblyTitle>
     <Product>PipelineBroadcast for PowerShell</Product>
     <Company>rhubarb-geek-nz</Company>
